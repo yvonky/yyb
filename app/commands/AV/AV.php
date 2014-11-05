@@ -96,6 +96,7 @@ class AVRestClient{
 			$urlParams = http_build_query($args['data'], '', '&');
 			$url = $url.'?'.$urlParams;
 		}
+		// var_dump($args);
 		if(array_key_exists('urlParams',$args)){
 			$urlParams = http_build_query($args['urlParams'], '', '&');
     		$url = $url.'?'.$urlParams;

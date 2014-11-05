@@ -17,18 +17,23 @@ Route::get('/', function()
 });
 Route::get('/av',function()
 {
-	$query = new AVQuery('VenueList');
-    // $query->where('ID',1);
-    $return = $query->find();
+	$query = new AVQuery();
+     // $query->where('ID',1);
+    // $query->where('sportID','1');
+    // $query->orderBy('sportID');
+    // var_dump($query->$args);
+    // $return = $query->find();
     // print_r($return);
-    echo "<ul>";
-    foreach ($return as $name) {
-    	echo "<li>";
-    	echo ($name['name']);
-    	echo "</li>";
-    }
-    echo "</ul>";
-    // print_r($return['name']);
+    $cql=array('cql'=>"select * from SportObject where sportID='1'");
+    $return = $query->cqlfind($cql);
+    // echo "<ul>";
+    // foreach ($return as $name) {
+    // 	echo "<li>";
+    // 	echo ($name['sportID'].'  '.$name['sportName']);
+    // 	echo "</li>";
+    // }
+    // echo "</ul>";
+    print_r($return);
 });
 
 // Route::get('/av','YybController@show');

@@ -16,15 +16,31 @@ class AVQuery extends AVRestClient{
 	  $this->_requestUrl = 'classes/'.$class;
 	}
 	else{
-	  $this->throwError('include the className when creating a AVQuery');
+		$this->_requestUrl = 'cloudQuery';
+	  // echo 'include the className when creating a AVQuery' ;
 	}
 
 	parent::__construct();
 
   }
 
+  public function cqlfind($cqlParams){
+	$request = $this->request(array(
+									  'method' => 'GET',
+									  'requestUrl' => $this->_requestUrl,
+									  'urlParams' => $cqlParams,
+									  ));
+	// var_dump(array(
+	// 								  'method' => 'GET',
+	// 								  'requestUrl' => $this->_requestUrl,
+	// 								  'urlParams' => $cqlParams,
+	// 								  ));
+
+	return $request;
+  }
+
   public function find(){
-	if(empty($this->_query)){
+	if(empty($this->_query)&&empty($this->_include)&&empty($this->_order)&&(empty($this->_limit) || !($this->_limit == 0))&&empty($this->_skip)&&empty($this->_count)){
 	  $request = $this->request(array(
 									  'method' => 'GET',
 									  'requestUrl' => $this->_requestUrl
@@ -32,9 +48,11 @@ class AVQuery extends AVRestClient{
 	  return $request;
 	}
 	else{
+	  if(!empty($this->_query)){
 	  $urlParams = array(
 						 'where' => json_encode( $this->_query )
 						 );
+	  }
 	  if(!empty($this->_include)){
 		$urlParams['include'] = implode(',',$this->_include);
 	  }
@@ -50,7 +68,6 @@ class AVQuery extends AVRestClient{
 	  if($this->_count == 1){
 		$urlParams['count'] = '1';
 	  }
-	  //print_r($urlParams);
 	  $request = $this->request(array(
 									  'method' => 'GET',
 									  'requestUrl' => $this->_requestUrl,
@@ -91,7 +108,7 @@ class AVQuery extends AVRestClient{
 
   public function orderBy($field){
 	if(!empty($field)){
-	  $this->_order[] = $field;
+	  $this->_order[]= $field;
 	}
   }
 
