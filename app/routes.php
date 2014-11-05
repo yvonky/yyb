@@ -24,16 +24,16 @@ Route::get('/av',function()
     // var_dump($query->$args);
     // $return = $query->find();
     // print_r($return);
-    $cql=array('cql'=>"select * from SportObject where sportID='1'");
+    $cql=array('cql'=>"select * from SportObject order by createdAt");
     $return = $query->cqlfind($cql);
-    // echo "<ul>";
-    // foreach ($return as $name) {
-    // 	echo "<li>";
-    // 	echo ($name['sportID'].'  '.$name['sportName']);
-    // 	echo "</li>";
-    // }
-    // echo "</ul>";
-    print_r($return);
+    echo "<ul>";
+    foreach ($return as $name) {
+    	echo "<li>";
+    	echo ($name['objectId'].'  '.$name['sportName']);
+    	echo "</li>";
+    }
+    echo "</ul>";
+    // print_r($return);
 });
 
 // Route::get('/av','YybController@show');

@@ -9,17 +9,27 @@ class AVQuery extends AVRestClient{
   private $_include = array();
 
   public function __construct($class=''){
-	if($class == 'users' || $class == 'installation'){
-	  $this->_requestUrl = $class;
-	}
-	elseif($class != ''){
-	  $this->_requestUrl = 'classes/'.$class;
-	}
-	else{
+	// if($class == 'users' || $class == 'installation'){
+	//   $this->_requestUrl = $class;
+	// }
+	// elseif($class != ''){
+	//   $this->_requestUrl = 'classes/'.$class;
+	// }
+	// else{
+	// 	$this->_requestUrl = 'cloudQuery';
+	//   // echo 'include the className when creating a AVQuery' ;
+	// }
+	switch ($class) {
+    case 'users' || 'installation':
+        $this->_requestUrl = $class;
+        break;
+    case '':
 		$this->_requestUrl = 'cloudQuery';
-	  // echo 'include the className when creating a AVQuery' ;
+        break;
+    default:
+	  echo 'include the className when creating a AVQuery' ;
+        break;
 	}
-
 	parent::__construct();
 
   }
@@ -30,12 +40,6 @@ class AVQuery extends AVRestClient{
 									  'requestUrl' => $this->_requestUrl,
 									  'urlParams' => $cqlParams,
 									  ));
-	// var_dump(array(
-	// 								  'method' => 'GET',
-	// 								  'requestUrl' => $this->_requestUrl,
-	// 								  'urlParams' => $cqlParams,
-	// 								  ));
-
 	return $request;
   }
 
