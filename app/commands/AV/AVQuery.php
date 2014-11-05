@@ -20,14 +20,15 @@ class AVQuery extends AVRestClient{
 	//   // echo 'include the className when creating a AVQuery' ;
 	// }
 	switch ($class) {
-    case 'users' || 'installation':
-        $this->_requestUrl = $class;
-        break;
     case '':
 		$this->_requestUrl = 'cloudQuery';
         break;
+    case 'users'|| 'installation':
+        $this->_requestUrl = $class;
+        break;
     default:
-	  echo 'include the className when creating a AVQuery' ;
+	  $this->_requestUrl = 'classes/'.$class;
+	  // echo 'include the className when creating a AVQuery' ;
         break;
 	}
 	parent::__construct();
